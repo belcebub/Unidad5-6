@@ -4,6 +4,7 @@
  */
 package src;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 /**
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
+    public static AdmonArchivoTexto aat = new AdmonArchivoTexto();
     /**
      * Creates new form FrmPrincipal
      */
@@ -52,6 +54,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuArchivo.add(opcNuevo);
 
         opcAbrir.setText("Abrir");
+        opcAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcAbrirActionPerformed(evt);
+            }
+        });
         mnuArchivo.add(opcAbrir);
 
         opcSalir.setText("Salir");
@@ -91,12 +98,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void opcSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcSalirActionPerformed
-        
+        this.dispose();
     }//GEN-LAST:event_opcSalirActionPerformed
 
     private void opcNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcNuevoActionPerformed
         new FrmNuevo(this, true).setVisible(true);
     }//GEN-LAST:event_opcNuevoActionPerformed
+
+    private void opcAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcAbrirActionPerformed
+        String nombreArchivo;
+        int opc;
+        JFileChooser dlgAbrir = new JFileChooser();
+        
+        dlgAbrir.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        dlgAbrir.addChoosableFileFilter(new FiltroTxt());
+        opc = dlgAbrir.showOpenDialog(this);
+        if (opc == JFileChooser.APPROVE_OPTION)  {
+            nombreArchivo = dlgAbrir.getSelectedFile().getPath();
+            new FrmAbrir(this, true, nombreArchivo).setVisible(true);
+        }
+    }//GEN-LAST:event_opcAbrirActionPerformed
 
     /**
      * @param args the command line arguments

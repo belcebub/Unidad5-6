@@ -5,21 +5,22 @@
 package src;
 
 import java.io.IOException;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static src.FrmPrincipal.aat;
 
 /**
  *
- * @author Belzee
+ * @author beelze
  */
-public class FrmNuevo extends javax.swing.JDialog {
+public class FrmAbrir extends javax.swing.JDialog {
 
+    String nombreArchivo;
     /**
-     * Creates new form FrmNuevo
+     * Creates new form FrmAbrir
      */
-    public FrmNuevo(java.awt.Frame parent, boolean modal) {
+    public FrmAbrir(java.awt.Frame parent, boolean modal, String nombreArchivo) {
         super(parent, modal);
+        this.nombreArchivo = nombreArchivo;
         initComponents();
     }
 
@@ -37,9 +38,15 @@ public class FrmNuevo extends javax.swing.JDialog {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         opcGuardar = new javax.swing.JMenuItem();
+        opcGuardarComo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("NUEVO ARCHIVO DE TEXTO");
+        setTitle("ABRIR ARCHIVO DE TEXTO");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         txtTexto.setColumns(20);
         txtTexto.setRows(5);
@@ -55,6 +62,9 @@ public class FrmNuevo extends javax.swing.JDialog {
         });
         mnuArchivo.add(opcGuardar);
 
+        opcGuardarComo.setText("Guardar como");
+        mnuArchivo.add(opcGuardarComo);
+
         jMenuBar1.add(mnuArchivo);
 
         setJMenuBar(jMenuBar1);
@@ -65,14 +75,14 @@ public class FrmNuevo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -80,31 +90,37 @@ public class FrmNuevo extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void opcGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcGuardarActionPerformed
-        String nombreArchivo;
-        int opc;
-        JFileChooser dlgGuardar = new JFileChooser();
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        String texto;
         
         try {
-            dlgGuardar.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            dlgGuardar.addChoosableFileFilter(new FiltroTxt());
-            opc = dlgGuardar.showSaveDialog(this);
-            if(opc == JFileChooser.APPROVE_OPTION) {
-                nombreArchivo = dlgGuardar.getSelectedFile().getPath() + ".txt";
-                if(!aat.existeArchivo(nombreArchivo)) {
-                    aat.guardarArchivo(nombreArchivo, txtTexto.getText());
-                    this.dispose();
-                } else {
-                    int resp = JOptionPane.showConfirmDialog(this, 
-                            "El nombre del archivo ya existe ¿Sobreescribir archivo?", 
-                            "Error", 
-                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (resp == JOptionPane.YES_OPTION) {
-                        aat.guardarArchivo(nombreArchivo, txtTexto.getText());
-                        this.dispose();
-                    }
-                }
+            texto = aat.leerArchivo(nombreArchivo);
+            txtTexto.setText(texto);
+        }  catch (IOException ioe) {
+            JOptionPane.showMessageDialog(this,
+                    ioe.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                aat.cerrarArchivoLectura();
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(this,
+                        ioe.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+        }      
+    }//GEN-LAST:event_formWindowOpened
+
+    private void opcGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcGuardarActionPerformed
+        try {
+            aat.guardarArchivo(nombreArchivo, txtTexto.getText());
+            JOptionPane.showMessageDialog(this, 
+                    "Archivo " + nombreArchivo + " guardado con éxito", 
+                    "Aviso", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(this,
                     ioe.getMessage(), 
@@ -122,14 +138,13 @@ public class FrmNuevo extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_opcGuardarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem opcGuardar;
+    private javax.swing.JMenuItem opcGuardarComo;
     private javax.swing.JTextArea txtTexto;
     // End of variables declaration//GEN-END:variables
 }
