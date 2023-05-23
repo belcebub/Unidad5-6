@@ -5,6 +5,7 @@
 package src;
 
 import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static src.FrmPrincipal.aat;
 
@@ -63,6 +64,11 @@ public class FrmAbrir extends javax.swing.JDialog {
         mnuArchivo.add(opcGuardar);
 
         opcGuardarComo.setText("Guardar como");
+        opcGuardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcGuardarComoActionPerformed(evt);
+            }
+        });
         mnuArchivo.add(opcGuardarComo);
 
         jMenuBar1.add(mnuArchivo);
@@ -137,6 +143,48 @@ public class FrmAbrir extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_opcGuardarActionPerformed
+
+    private void opcGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcGuardarComoActionPerformed
+        String nombreArchivo;
+        int opc;
+        JFileChooser dlgGuardar = new JFileChooser();
+        
+        try {
+            dlgGuardar.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            dlgGuardar.addChoosableFileFilter(new FiltroTxt());
+            opc = dlgGuardar.showSaveDialog(this);
+            if(opc == JFileChooser.APPROVE_OPTION) {
+                nombreArchivo = dlgGuardar.getSelectedFile().getPath() + ".txt";
+                if(!aat.existeArchivo(nombreArchivo)) {
+                    aat.guardarArchivo(nombreArchivo, txtTexto.getText());
+                    this.dispose();
+                } else {
+                    int resp = JOptionPane.showConfirmDialog(this, 
+                            "El nombre del archivo ya existe ¿Sobreescribir archivo?", 
+                            "Error", 
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (resp == JOptionPane.YES_OPTION) {
+                        aat.guardarArchivo(nombreArchivo, txtTexto.getText());
+                        this.dispose();
+                    }
+                }
+            }
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(this,
+                    ioe.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                aat.cerrarArchivoEscritura();
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(this,
+                        ioe.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_opcGuardarComoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

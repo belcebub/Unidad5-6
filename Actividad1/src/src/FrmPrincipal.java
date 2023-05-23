@@ -4,8 +4,10 @@
  */
 package src;
 
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -74,9 +76,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuAyuda.setText("Ayuda");
 
         opcVerAyuda.setText("Ver la ayuda");
+        opcVerAyuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcVerAyudaActionPerformed(evt);
+            }
+        });
         mnuAyuda.add(opcVerAyuda);
 
         opcAcercaDe.setText("Acerca de...");
+        opcAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcAcercaDeActionPerformed(evt);
+            }
+        });
         mnuAyuda.add(opcAcercaDe);
 
         jMenuBar1.add(mnuAyuda);
@@ -98,7 +110,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void opcSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcSalirActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_opcSalirActionPerformed
 
     private void opcNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcNuevoActionPerformed
@@ -118,6 +130,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
             new FrmAbrir(this, true, nombreArchivo).setVisible(true);
         }
     }//GEN-LAST:event_opcAbrirActionPerformed
+
+    private void opcVerAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcVerAyudaActionPerformed
+        String texto;
+        
+        new FrmAyuda(this, true).setVisible(true);
+    }//GEN-LAST:event_opcVerAyudaActionPerformed
+
+    private void opcAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcAcercaDeActionPerformed
+        JOptionPane.showMessageDialog(this,
+                    "Editor de textos \n" + "Version: 1.0\n" + "Desarrollador: Luis Gerardo Esteban Flores\n" + "Fecha: Mayo 2023", 
+                    "Acerca de...", 
+                    JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_opcAcercaDeActionPerformed
 
     /**
      * @param args the command line arguments
