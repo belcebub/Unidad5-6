@@ -104,6 +104,24 @@ public class MiArchivo {
             //Se abre el archivo para leer su contenido
             fis = new FileInputStream("Datos.dat");
             dis = new DataInputStream(fis);
+            do {
+                System.out.printf("Nombre: %s\n", dis.readUTF());
+                System.out.printf("Edad: %d\n", dis.readInt());
+                System.out.printf("Estatura: %s\n", dis.readFloat());
+                System.out.println("----------------------------");
+            } while (true);
+        } catch (EOFException e) {
+            System.out.println("FIN DE LA CONSULTA");
+        } catch (IOException e) {
+            System.out.printf("Error: %s\n", e.getMessage());
+        } finally {
+            try {
+                if (dis != null) {
+                    dis.close();
+                }
+            } catch (IOException e) {
+                System.out.printf("Error: %s\n", e.getMessage());
+            }
         }
     }
 }
