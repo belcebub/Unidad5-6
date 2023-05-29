@@ -88,6 +88,11 @@ public class FrmCervezas extends javax.swing.JFrame {
         jMenu2.add(opcConsInd);
 
         opcConsGral.setText("Consulta general");
+        opcConsGral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcConsGralActionPerformed(evt);
+            }
+        });
         jMenu2.add(opcConsGral);
 
         jMenuBar1.add(jMenu2);
@@ -151,6 +156,10 @@ public class FrmCervezas extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_opcConsIndActionPerformed
+
+    private void opcConsGralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcConsGralActionPerformed
+        new FrmConsultaGeneral(this, true).setVisible(true);
+    }//GEN-LAST:event_opcConsGralActionPerformed
 
     /**
      * @param args the command line arguments

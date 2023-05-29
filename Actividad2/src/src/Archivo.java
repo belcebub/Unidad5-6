@@ -16,22 +16,29 @@ import java.io.IOException;
  * @author Geraf
  */
 public class Archivo {
-    public static Archivo a = new Archivo();    //Se utilizaran para escribir en el archivo
     private FileOutputStream fos;
     private DataOutputStream dos;
     //Se utilizaran para leer en el archivo
     private FileInputStream fis;
     private DataInputStream dis;
     
-    public boolean busqueda(int clave){
+    public boolean busqueda(int clave) {
         int cla;
-        
+        String nombre;
+        float precio;
+        char tipo;
+        float vol;
+
         try {
             fis = new FileInputStream("Datos.dat");
             dis = new DataInputStream(fis);
-            
+
             do {
-               cla = dis.readInt();
+                cla = dis.readInt();
+                nombre = dis.readUTF();
+                precio = dis.readFloat();
+                tipo = dis.readChar();
+                vol = dis.readFloat();
                 if (clave == cla) {
                     return true;
                 }
@@ -110,18 +117,20 @@ public class Archivo {
         }
     }
     
-    public void consultaGeneral(){
+    public String consultaGeneral(){
+        String texto = "";
         try {
             //Se abre el archivo para leer su contenido
             fis = new FileInputStream("Datos.dat");
             dis = new DataInputStream(fis);
+                
             do {
-                System.out.printf("Clave: %s\n", dis.readInt());
-                System.out.printf("Nombre: %s\n", dis.readUTF());
-                System.out.printf("Precio: $%s\n", dis.readFloat());
-                System.out.printf("Tipo: %s\n", dis.readChar());
-                System.out.printf("Volumen de alcohol: %s%%\n", dis.readFloat());
-                System.out.println("----------------------------");
+                texto += "Clave: " + dis.readInt() +
+                "\nNombre: " + dis.readUTF() +
+                "\nPrecio: " + dis.readFloat() + 
+                "\nTipo: " + dis.readChar() +
+                "\nVolumen de alcohol: " + dis.readFloat() + "%" +
+                "\n----------------------------\n";
             } while (true);
         } catch (EOFException e) {
             System.out.println("FIN DE LA CONSULTA");
@@ -136,5 +145,7 @@ public class Archivo {
                 System.out.printf("Error: %s\n", e.getMessage());
             }
         }
+        return texto;
     }
+        
 }

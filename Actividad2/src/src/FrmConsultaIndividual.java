@@ -44,6 +44,7 @@ public class FrmConsultaIndividual extends javax.swing.JDialog {
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("CONSULTA INDIVIDUAL");
         setBackground(new java.awt.Color(102, 102, 102));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -140,6 +141,7 @@ public class FrmConsultaIndividual extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -147,7 +149,7 @@ public class FrmConsultaIndividual extends javax.swing.JDialog {
         int cla = c.getClave();
         String nombre = c.getNombre();
         Float precio = c.getPrecio();
-        char tipo = c.getTipo();
+        char tipo = c.getTipo();                                   
         float volA = c.getVolAlcohol();
         
         txtClave.setText(String.valueOf(cla));

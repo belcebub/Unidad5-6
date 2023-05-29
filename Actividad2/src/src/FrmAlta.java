@@ -190,7 +190,7 @@ public class FrmAlta extends javax.swing.JDialog {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         clave = Integer.parseInt(txtClave.getText());
-        if (a.busqueda(clave) == false) {
+        if (a.busqueda(clave) != true) {
             txtNombre.setEnabled(true);
             txtPrecio.setEnabled(true);
             rbtClara.setEnabled(true);
@@ -204,6 +204,7 @@ public class FrmAlta extends javax.swing.JDialog {
                 "Ya existe la clave",
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 

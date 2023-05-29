@@ -37,7 +37,7 @@ public class PruebaMiArchivo {
                     leer.nextLine();
                     System.out.print("Nombre: ");
                     nombre = leer.nextLine();
-                    if (ma.busqueda(nombre) != true) {
+                    if (ma.busqueda(nombre) != false) {
                         System.out.print("Edad: ");
                         edad = leer.nextInt();
                         System.out.print("Estatura: ");
