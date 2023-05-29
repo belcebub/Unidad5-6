@@ -124,4 +124,39 @@ public class MiArchivo {
             }
         }
     }
+    
+    public boolean busqueda(String nombre) {
+        String nom;
+
+        boolean ban = false;
+
+        
+        try {
+            //Se abre el archivo para leer si contenido 
+            fis = new FileInputStream("Datos.dat");
+            dis = new DataInputStream(fis);
+            
+            /*
+            Se realiza una busqueda del nombre recibido como parametro.
+            Si se localiza se construye el objeto p de la clase Persona con los datos
+            leidos en el archivo y se retorna p. Si se recorre todo el archivo y no se
+            localiza el nombre llegaremos al final del archivo, lanzandose una excepcion
+            de final de archivo (EOFEXception), la cual retorna null, que indica que no se
+            localizo a alguna persona con ese nombre. En caso de que suceda algun otro
+            tipo de excepcion de e/s, imprimimos el mensaje asociado a la excepcion y tambien
+            retornamos null.
+            */
+            do {
+                nom = dis.readUTF();
+                if (nombre.equals(nom)) {
+                    return true;
+                }
+            } while (true);
+        } catch (EOFException e) {
+            return false;
+        } catch (IOException e) {
+            System.out.printf("Error: %s\n", e.getMessage());
+            return false;
+        } 
+    }
 }
