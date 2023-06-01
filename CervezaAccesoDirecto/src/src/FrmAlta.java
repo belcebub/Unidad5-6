@@ -67,6 +67,7 @@ public class FrmAlta extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
         jLabel2.setText("Nombre:");
 
+        txtNombre.setToolTipText("solo puede escribir 20 caracteres");
         txtNombre.setEnabled(false);
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

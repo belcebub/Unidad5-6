@@ -94,23 +94,25 @@ public boolean busqueda(int clave) {
         }
     }
     
-    public String consultaGeneral(){
+    public String consultaGeneral() {
         String texto = "";
-        int clave, x =1;
+        int clave, x = 1;
         try {
             //Se abre el archivo para leer su contenido
             raf = new RandomAccessFile("Datos.dat", "r");
             do {
                 raf.seek(x * TAM_REG - TAM_REG);
                 clave = raf.readInt();
-                texto += "Clave: " + raf.readInt()
-                        + "\nNombre: " + raf.readUTF()
-                        + "\nPrecio: " + raf.readFloat()
-                        + "\nTipo: " + raf.readChar()
-                        + "\nVolumen de alcohol: " + raf.readFloat() + "%"
-                        + "\n----------------------------\n";
+                if (clave != 0) {
+                    texto += "Clave: " + clave
+                            + "\nNombre: " + raf.readUTF()
+                            + "\nPrecio: " + raf.readFloat()
+                            + "\nTipo: " + raf.readChar()
+                            + "\nVolumen de alcohol: " + raf.readFloat() + "%"
+                            + "\n----------------------------\n";
+                }
                 x++;
-            } while(true);
+            } while (true);
         } catch (EOFException e) {
             System.out.println("FIN DE LA CONSULTA");
         } catch (IOException e) {
