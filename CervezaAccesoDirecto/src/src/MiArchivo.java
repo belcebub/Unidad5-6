@@ -22,27 +22,18 @@ public class MiArchivo {
         TAM_REG = 35;
     }
 
-public boolean busqueda(int clave) {
-        try {
-
-            raf = new RandomAccessFile("Datos.dat", "r");
-            raf.seek(clave * TAM_REG - TAM_REG);
-            int cla = raf.readInt();
-            if (cla == clave) {
-                return true;
-            }
-        } catch (EOFException e) {
-            return false;
-        } catch (IOException e) {
-            System.out.printf("Error: %s\n", e.getMessage());
-            return false;
+    public boolean busqueda(int clave) throws IOException {
+        raf = new RandomAccessFile("Datos.dat", "r");
+        raf.seek(clave * TAM_REG - TAM_REG);
+        int cla = raf.readInt();
+        if (cla == clave) {
+            return true;
         }
         return false;
     }
        
     
-    public void altas(Cerveza c) {
-        try {
+    public void altas(Cerveza c) throws IOException{
             raf = new RandomAccessFile("Datos.dat","rw");
             raf.seek(c.getClave() * TAM_REG - TAM_REG);
             raf.writeInt(c.getClave());
@@ -50,20 +41,9 @@ public boolean busqueda(int clave) {
             raf.writeFloat(c.getPrecio());
             raf.writeChar(c.getTipo());
             raf.writeFloat(c.getVolAlcohol());
-        } catch (IOException e) {
-            System.out.printf("Error: %s\n", e.getMessage());
-        } finally {
-            try {
-                if (raf != null) {
-                    raf.close();
-                }
-            } catch (IOException e){
-                System.out.printf("Error: %s\n", e.getMessage());
-            }
-        }
     }
     
-    public Cerveza consultaIndividual(int clave){
+    public Cerveza consultaIndividual(int clave) throws IOException{
         Cerveza c = null;
         
         try {
@@ -81,20 +61,11 @@ public boolean busqueda(int clave) {
         } catch (EOFException e) {
             return null;
         } catch (IOException e) {
-            System.out.printf("Error: %s\n", e.getMessage());
             return null;
-        } finally {
-            try {
-                if (raf != null) {
-                    raf.close();
-                }         
-            } catch (IOException e) {
-               System.out.printf("Error: %s\n", e.getMessage()); 
-            }
-        }
+        } 
     }
     
-    public String consultaGeneral() {
+    public String consultaGeneral() throws IOException {
         String texto = "";
         int clave, x = 1;
         try {
@@ -115,18 +86,14 @@ public boolean busqueda(int clave) {
             } while (true);
         } catch (EOFException e) {
             System.out.println("FIN DE LA CONSULTA");
-        } catch (IOException e) {
-            System.out.printf("Error: %s\n", e.getMessage());
-        } finally {
-            try {
-                if (raf != null) {
-                    raf.close();
-                }
-            } catch (IOException e) {
-                System.out.printf("Error: %s\n", e.getMessage());
-            }
         }
         return texto;
-    }    
+    } 
+
+    void cerrarArchivo() throws IOException{
+        if (raf != null) {
+            raf.close();
+        }
+    }
     
 }

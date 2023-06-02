@@ -4,6 +4,7 @@
  */
 package src;
 
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -33,7 +34,6 @@ public class FrmCervezas extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        opcAyuda = new javax.swing.JMenuItem();
         opcAcercaDe = new javax.swing.JMenuItem();
         opcSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -47,9 +47,6 @@ public class FrmCervezas extends javax.swing.JFrame {
 
         jMenu1.setBackground(new java.awt.Color(0, 51, 51));
         jMenu1.setText("Sistema");
-
-        opcAyuda.setText("Ayuda");
-        jMenu1.add(opcAyuda);
 
         opcAcercaDe.setText("Acerca de...");
         opcAcercaDe.addActionListener(new java.awt.event.ActionListener() {
@@ -121,12 +118,12 @@ public class FrmCervezas extends javax.swing.JFrame {
     private void opcAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcAcercaDeActionPerformed
         JOptionPane.showMessageDialog(this,
                 "Sistema: CERVECERIA LA BUENA CRUDA\n" + 
-                        "version 1.0\n" +
+                        "version 2.0\n" +
                         "Programadores:\n"+ 
-                        "  Joseph Abraham Duran Vargas\n" +
-                        "  Luis Gerardo Esteban Flores\n" +
-                        "  Alejandro Jesus Damian Rodriguez\n" +
-                        "Fecha: 15 de Mayo del 2023", 
+                        "   Joseph Abraham Duran Vargas\n" +
+                        "   Luis Gerardo Esteban Flores\n" +
+                        "   Alejandro Jesus Damian Rodriguez\n" +
+                        "Fecha: 01 de Junio del 2023", 
                 "Acerca de...", 
                 JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_opcAcercaDeActionPerformed
@@ -138,23 +135,30 @@ public class FrmCervezas extends javax.swing.JFrame {
     private void opcConsIndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcConsIndActionPerformed
         int clave;
         String claveTexto;
-        
+
         claveTexto = JOptionPane.showInputDialog(this,
                 "Clave a consultar",
                 "Ingresar Clave",
                 JOptionPane.QUESTION_MESSAGE);
-        if (claveTexto != null) {
-            clave = Integer.parseInt(claveTexto);
-            boolean num = ma.busqueda(clave);
-            if (num != false) {
-                new FrmConsultaIndividual(this, true, clave).setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(
-                this, 
-                "No existe ninguna producto con esa clave",
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
+        try {
+            if (claveTexto != null) {
+                clave = Integer.parseInt(claveTexto);
+                boolean num = ma.busqueda(clave);
+                if (num != false) {
+                    new FrmConsultaIndividual(this, true, clave).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "No existe ninguna producto con esa clave",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
+        } catch (IOException ioe){
+            JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_opcConsIndActionPerformed
 
@@ -204,7 +208,6 @@ public class FrmCervezas extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem opcAcercaDe;
     private javax.swing.JMenuItem opcAltas;
-    private javax.swing.JMenuItem opcAyuda;
     private javax.swing.JMenuItem opcConsGral;
     private javax.swing.JMenuItem opcConsInd;
     private javax.swing.JMenuItem opcSalir;

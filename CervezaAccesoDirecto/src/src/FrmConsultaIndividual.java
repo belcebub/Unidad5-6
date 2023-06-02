@@ -4,6 +4,8 @@
  */
 package src;
 
+import java.io.IOException;
+import javax.swing.JOptionPane;
 import static src.FrmCervezas.ma;
 
 /**
@@ -145,18 +147,34 @@ public class FrmConsultaIndividual extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Cerveza c = ma.consultaIndividual(clave);
-        int cla = c.getClave();
-        String nombre = c.getNombre();
-        Float precio = c.getPrecio();
-        char tipo = c.getTipo();                                   
-        float volA = c.getVolAlcohol();
-        
-        txtClave.setText(String.valueOf(cla));
-        txtNombre.setText(nombre);
-        txtPrecio.setText(String.valueOf(precio));
-        txtTipo.setText(String.valueOf(tipo));
-        txtVolAlcohol.setText(String.valueOf(volA));
+        try {
+            Cerveza c = ma.consultaIndividual(clave);
+            int cla = c.getClave();
+            String nombre = c.getNombre();
+            Float precio = c.getPrecio();
+            char tipo = c.getTipo();
+            float volA = c.getVolAlcohol();
+
+            txtClave.setText(String.valueOf(cla));
+            txtNombre.setText(nombre);
+            txtPrecio.setText(String.valueOf(precio));
+            txtTipo.setText(String.valueOf(tipo));
+            txtVolAlcohol.setText(String.valueOf(volA));
+        } catch (IOException ioe){
+            JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try{
+                ma.cerrarArchivo();
+            } catch (IOException ioe){
+               JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE); 
+            }
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

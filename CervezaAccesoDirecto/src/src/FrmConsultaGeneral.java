@@ -4,6 +4,8 @@
  */
 package src;
 
+import java.io.IOException;
+import javax.swing.JOptionPane;
 import static src.FrmCervezas.ma;
 
 /**
@@ -87,9 +89,25 @@ public class FrmConsultaGeneral extends javax.swing.JDialog {
         this.dispose();
     }                                           
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
-        txtArea.setText(ma.consultaGeneral());
-         }
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {
+        try {
+            txtArea.setText(ma.consultaGeneral());
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try{
+                ma.cerrarArchivo();
+            } catch (IOException ioe){
+                JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton btnRegresar;

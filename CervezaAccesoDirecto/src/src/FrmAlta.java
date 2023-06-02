@@ -4,6 +4,7 @@
  */
 package src;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import static src.FrmCervezas.ma;
 
@@ -196,39 +197,62 @@ public class FrmAlta extends javax.swing.JDialog {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         clave = Integer.parseInt(txtClave.getText());
-        if (ma.busqueda(clave) != true) {
-            txtNombre.setEnabled(true);
-            txtPrecio.setEnabled(true);
-            rbtClara.setEnabled(true);
-            rbtObscura.setEnabled(true);
-            rbtAmbar.setEnabled(true);
-            txtVolAlcoh.setEnabled(true);
-            btnCapDatos.setEnabled(true);
-        } else {
-            JOptionPane.showMessageDialog(
-                this, 
-                "Ya existe la clave",
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-            this.dispose();
+        try {
+            if (ma.busqueda(clave) != true) {
+                txtNombre.setEnabled(true);
+                txtPrecio.setEnabled(true);
+                rbtClara.setEnabled(true);
+                rbtObscura.setEnabled(true);
+                rbtAmbar.setEnabled(true);
+                txtVolAlcoh.setEnabled(true);
+                btnCapDatos.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ya existe la clave",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+            }
+        } catch (IOException ioe) {
+           JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCapDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapDatosActionPerformed
-        if (rbtClara.isSelected()) {
-            tipo = 'c';
-        } else if (rbtObscura.isSelected()) {
-            tipo = 'o';
-        } else {
-            tipo = 'a';
+        try {
+            if (rbtClara.isSelected()) {
+                tipo = 'c';
+            } else if (rbtObscura.isSelected()) {
+                tipo = 'o';
+            } else {
+                tipo = 'a';
+            }
+            Cerveza c = new Cerveza(Integer.parseInt(txtClave.getText()), txtNombre.getText(), Float.parseFloat(txtPrecio.getText()), tipo, Float.parseFloat(txtVolAlcoh.getText()));
+            ma.altas(c);
+            JOptionPane.showMessageDialog(this,
+                    "La Cerveza fue dada de alta",
+                    "Alta exitosa",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException ioe){
+            JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try{
+                ma.cerrarArchivo();
+            } catch (IOException ioe){
+                JOptionPane.showMessageDialog(this,
+                   ioe.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+            }
         }
-        Cerveza c = new Cerveza(Integer.parseInt(txtClave.getText()), txtNombre.getText(), Float.parseFloat(txtPrecio.getText()), tipo, Float.parseFloat(txtVolAlcoh.getText()));
-        ma.altas(c);
-        JOptionPane.showMessageDialog(this,
-                "La Cerveza fue dada de alta",
-                "Alta exitosa",
-                JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
     }//GEN-LAST:event_btnCapDatosActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
